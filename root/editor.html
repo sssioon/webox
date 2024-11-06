@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>网页编辑器</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div id="app">
@@ -12,14 +13,42 @@
             <button id="backButton">返回</button>
             <button id="editButton">编辑</button>
             <button id="saveButton">保存内容</button>
-            <div class="history-dropdown">
-                <button id="historyButton">历史记录</button>
-                <div class="history-list" id="historyList"></div>
-            </div>
         </div>
         <div id="editableContent" class="editable-area" contenteditable="true"></div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const url = urlParams.get('url');
+        
+        if (!url) {
+            alert('未提供网址');
+            window.history.back();
+        }
+
+        fetch(`/proxy?url=${encodeURIComponent(url)}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('editableContent').innerHTML = html;
+            })
+            .catch(err => {
+                console.error('获取网页内容失败:', err);
+                alert('无法加载该网页，请检查网址。');
+            });
+
+        document.getElementById('backButton').addEventListener('click', () => {
+            window.history.back();
+        });
+
+        document.getElementById('editButton').addEventListener('click', () => {
+            document.getElementById('editableContent').contentEditable = "true";
+        });
+
+        document.getElementById('saveButton').addEventListener('click', () => {
+            const content = document.getElementById('editableContent').innerHTML;
+            localStorage.setItem('savedContent', content);
+            alert('内容已保存');
+        });
+    </script>
 </body>
 </html>
