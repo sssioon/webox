@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页编辑器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <button id="backButton">返回</button>
+            <button id="editButton">编辑</button>
+            <button id="saveButton">保存内容</button>
+            <div class="history-dropdown">
+                <button id="historyButton">历史记录</button>
+                <div class="history-list" id="historyList"></div>
+            </div>
+        </div>
+        <div id="editableContent" class="editable-area" contenteditable="true"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
